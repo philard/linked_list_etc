@@ -1,5 +1,4 @@
 
-
 defaultTasks 'clean', 'build'
 
 apply plugin: 'java'
