@@ -8,17 +8,24 @@ public class SinglyLinkedListTest {
     @Before
     public void setup() {
         list = new SinglyLinkedList();
+        list.add(0);
+        list.add(2);
+        list.add(3);
+        list.add(4);
     }
 
-    public static void main(String[] args) {
-        new SinglyLinkedListTest().mainTest();
+    @Test
+    public void testAdditions() {
+
+        list.add(5);
+        assert(list.size() == 5);
     }
 
     public void mainTest() {
         setup();
+        //testAdditions();
 
-        testAdditions();
-        list.add(3, 2);
+        list.add(2, 1);
         System.out.println(list);
         System.out.println(list.contains(0));
         System.out.println(list.contains(2));
@@ -70,15 +77,8 @@ public class SinglyLinkedListTest {
         list.clear();
         System.out.println(list);
     }
-
-
-    @Test
-    public void testAdditions() {
-        list.add(0);
-        list.add(1);
-        list.add(3);
-        list.add(4);
-        list.add(5);
-        assert(list.size() == 5);
+    public static void main(String[] args) {
+        new SinglyLinkedListTest().mainTest();
     }
+
 }

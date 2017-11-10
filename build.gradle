@@ -34,3 +34,8 @@ dependencies {
 //            'org.jbehave:jbehave-core:3.8',
 //            'org.springframework:spring-test:4.3.10.RELEASE'
 }
+
+test {
+    filter {     includeTestsMatching "*Test" }
+    dependsOn 'cleanTest'
+}
