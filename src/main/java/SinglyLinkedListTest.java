@@ -1,12 +1,23 @@
+import org.junit.Before;
 import org.junit.Test;
 
-public class Test {
+public class SinglyLinkedListTest {
 
-    // Created to basically test SinglyLinkedList
+    SinglyLinkedList list;
+
+    @Before
+    public void setup() {
+        list = new SinglyLinkedList();
+    }
+
     public static void main(String[] args) {
-        SinglyLinkedList list = setup();
+        new SinglyLinkedListTest().mainTest();
+    }
 
-        testAdditions(list);
+    public void mainTest() {
+        setup();
+
+        testAdditions();
         list.add(3, 2);
         System.out.println(list);
         System.out.println(list.contains(0));
@@ -60,12 +71,9 @@ public class Test {
         System.out.println(list);
     }
 
-    private static SinglyLinkedList setup() {
-        return new SinglyLinkedList();
-    }
 
     @Test
-    private static void testAdditions(SinglyLinkedList list) {
+    public void testAdditions() {
         list.add(0);
         list.add(1);
         list.add(3);
