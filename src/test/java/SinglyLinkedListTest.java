@@ -6,72 +6,122 @@ import static org.junit.Assert.assertThat;
 
 public class SinglyLinkedListTest {
 
-    SinglyLinkedList list;
+    public SinglyLinkedList list;
+
+    final Integer FIRST_INDEX = 0;
 
     @Before
     public void setup() {
         list = new SinglyLinkedList();
         list.add(0);
+        list.add(1);
         list.add(2);
         list.add(3);
-        list.add(4);
+        list.add(3);
+        list.add(2);
+        list.add(1);
+        list.add(0);
+    }
+
+    @Test
+    public void shouldGetForGivenIndex() {
+        System.out.println(list.get(0));
     }
 
     @Test
     public void shouldAdd() {
-        list.add(5);
-        assertThat(list.size(), equalTo(5));
-        assertThat(list.get(4), equalTo(0));
+        int value = 5;
+        list.add(value);
+        assertThat(list.get(FIRST_INDEX), equalTo(value));
+        assertThat(list.size(), equalTo(9));
     }
 
     @Test
-    public void testAddToThirdPosition() {
-        list.add(3, 1);
-        System.out.println(list);
-        assert(list.contains(1));
+    public void shouldAddToThirdPosition() {
+        this.list.add(1, 88);
+        assertThat(list.get(1), equalTo(88));
     }
 
     @Test
-    public void testAddFirst() {
-        list.addFirst("First");
-        Object o = list.get(0);
-        assert o instanceof String && "First".equals(o);
+    public void shouldAddFirst() {
+        int value = 0;
+        list.addFirst(value);
+        assertThat(value, equalTo(list.get(FIRST_INDEX)));
     }
 
     @Test
-    public void testAddLast() {
-        list.addLast("Last");
-        Object o = list.get(list.size - 1);
-        assert o instanceof String && "Last".equals(o);
+    public void shouldAddLast() {
+        int value = 5;
+        list.addLast(value);
+        int lastIndex = list.size() - 1;
+        assertThat(list.get(lastIndex), equalTo(value));
     }
 
     @Test
-    public void testSet() {
-        list.set(0, "set");
-        list.set(3, "set");
-        assert "set".equals(list.get(0));
-        assert"set".equals(list.get(3));
+    public void shouldSet() {
+        testSet(0, 0);
+        testSet(3, 4);
+    }
+
+    public void testSet(int index, int value) {
+        list.set(index, value);
+        assertThat(value, equalTo(list.get(index)));
     }
 
     @Test(expected = IndexOutOfBoundsException.class)
-    public void testSetOutOfBounds() {
-        list.set(4, "set");
+    public void shouldThrowExceptionWhenSetOutOfBounds() {
+        int invalidIndex = 99;
+        list.set(invalidIndex, 5);
     }
 
     @Test
-    public void testRemove() {
+    public void shouldRemoveFirstAndLast() {
         list.removeFirst();
         list.removeLast();
-        assert list.size == 2;
-        assert list.get(0).equals(3);
-        assert list.get(1).equals(2);
+        assertThat(list.get(FIRST_INDEX), equalTo(1));
+        assertThat(list.get(1), equalTo(2));
+        assertThat(list.size(), equalTo(6));
     }
 
     @Test
     public void shouldRemoveAtIndex() {
-        list.remove(2);
-        assertThat(list.size, equalTo(3));
-        assertThat(list.get(2), equalTo(0));
+        list.remove(1);
+        assertThat(list.get(FIRST_INDEX), equalTo(0));
+        assertThat(list.get(1), equalTo(2));
+        assertThat(list.size(), equalTo(7));
+    }
+
+    @Test
+    public void shouldRemoveAllOfGivenValue() {
+        list.removeAll(1);
+        assertThat(list.get(0), equalTo(0));
+        assertThat(list.get(1), equalTo(2));
+        assertThat(list.get(2), equalTo(3));
+        assertThat(list.size(), equalTo(6));
+    }
+
+    @Test
+    public void shouldRemoveLastOfGivenValue() {
+        list.removeLast(1);
+        assertThat(list.get(4), equalTo(3));
+        assertThat(list.get(5), equalTo(2));
+        assertThat(list.get(6), equalTo(0));
+        assertThat(list.size(), equalTo(7));
+    }
+
+    @Test
+    public void shouldRemoveFirstOfGivenValue() {
+        list.removeFirst(1);
+        assertThat(list.get(0), equalTo(0));
+        assertThat(list.get(1), equalTo(2));
+        assertThat(list.get(2), equalTo(3));
+        assertThat(list.size(), equalTo(7));
+    }
+
+    @Test
+    public void shouldRemove() {
+        list.remove(new Integer(1));
+        assertThat(list.size(), equalTo(7));
     }
 
     public void mainTest() {
@@ -83,38 +133,13 @@ public class SinglyLinkedListTest {
 //        testSet();
 //        testSetOutOfBounds();
 //        testRemove();
-
-
-        System.out.println(list);
-
-        // Removes the first occurrence of the specified object
-        list.remove(new Integer(1));
-        System.out.println(list);
-
-        list.removeFirst(2);
-        System.out.println(list);
-
-        list.removeLast(4);
-        System.out.println(list);
-
-        list.removeAll(5);
-        System.out.println(list);
-
-        list.remove();
-        System.out.println(list);
-
-        list.add("****");
-        list.add("~~~~");
-        list.add("....");
-        System.out.println(list);
-        System.out.println(list.get(0));
-        System.out.println(list.get(1));
-        System.out.println(list.get(2));
-
+//        shouldRemove();
+//        shouldRemoveFirstOfGivenValue();
+//        shouldRemoveLastOfGivenValue();
+//        shouldRemoveAllOfGivenValue();
+//        shouldGetForGivenIndex();
         list.clear();
     }
-
-
 
     public static void main(String[] args) {
         new SinglyLinkedListTest().mainTest();
