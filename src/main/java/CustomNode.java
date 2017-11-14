@@ -1,11 +1,15 @@
 public class CustomNode {
 
-    private final Object value;
+    private Object value;
     CustomNode next;
     CustomNode previous;
 
     public CustomNode(Object value) {
         this.value = value;
+    }
+
+    public Object getValue() {
+        return value;
     }
 
     public CustomNode getNext() {
@@ -14,10 +18,6 @@ public class CustomNode {
 
     public void setNext(CustomNode next) {
         this.next = next;
-    }
-
-    public CustomNode() {
-
     }
 
     public CustomNode getPrevious() {
