@@ -32,8 +32,10 @@ public class CustomLLTest {
     public void shouldAdd() {
         int value = 5;
         list.add(value);
-        assertThat(list.get(FIRST_INDEX), equalTo(value));
+        Object valueAndEnd = list.get(list.size()-1);
+        assertThat(valueAndEnd, equalTo(value));
         assertThat(list.size(), equalTo(9));
+        list.toString();
     }
 
     @Test

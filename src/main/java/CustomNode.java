@@ -1,8 +1,8 @@
 public class CustomNode {
 
     private Object value;
-    CustomNode next;
-    CustomNode previous;
+    private CustomNode next;
+    private CustomNode previous;
 
     public CustomNode(Object value) {
         this.value = value;
@@ -26,5 +26,9 @@ public class CustomNode {
 
     public void setPrevious(CustomNode previous) {
         this.previous = previous;
+    }
+
+    public void setValue(Object value) {
+        this.value = value;
     }
 }
