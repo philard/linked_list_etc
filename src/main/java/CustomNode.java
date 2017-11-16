@@ -8,6 +8,11 @@ public class CustomNode {
         this.value = value;
     }
 
+    public CustomNode(Object value, CustomNode next) {
+        this(value);
+        this.setNext(next);
+    }
+
     public Object getValue() {
         return value;
     }

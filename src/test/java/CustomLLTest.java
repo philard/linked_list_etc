@@ -32,14 +32,14 @@ public class CustomLLTest {
     public void shouldAdd() {
         int value = 5;
         list.add(value);
-        Object valueAndEnd = list.get(list.size()-1);
+        Object valueAndEnd = list.get(list.size() - 1);
         assertThat(valueAndEnd, equalTo(value));
         assertThat(list.size(), equalTo(9));
         list.toString();
     }
 
     @Test
-    public void shouldAddToThirdPosition() {
+    public void shouldAddToSecondPosition() {
         this.list.add(1, 88);
         assertThat(list.get(1), equalTo(88));
     }
@@ -123,7 +123,7 @@ public class CustomLLTest {
     @Test
     public void shouldRemove() {
         list.remove(new Integer(1));
-        assertThat(list.size(), equalTo(7));
+        assertThat("list size is ", list.size(), equalTo(7));
     }
 
     public void mainTest() {

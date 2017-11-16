@@ -24,10 +24,13 @@ public class CustomLL implements Iterable<Object>{
     }
 
     public void add(final int index, Object value) {
-        CustomNode atIndex = walkToNodeAtIndex(index);
-        CustomNode insertedNode = new CustomNode(value);
-        atIndex.setNext(insertedNode);
-        insertedNode.setNext(atIndex);
+        if (index < 0) throw new IndexOutOfBoundsException();
+        if (index == 0) addFirst(value);
+        else {
+            CustomNode atIndex = walkToNodeAtIndex(index - 1);
+            CustomNode insertedNode = new CustomNode(value, atIndex.getNext());
+            atIndex.setNext(insertedNode);
+        }
     }
 
 
