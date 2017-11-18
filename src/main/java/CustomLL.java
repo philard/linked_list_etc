@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.function.Consumer;
 
 public class CustomLL implements Iterable<Object>{
 
@@ -68,11 +69,12 @@ public class CustomLL implements Iterable<Object>{
         return size;
     }
 
+    @Override
     public Iterator<Object> iterator() {
-        return new CustomIterator();
+        return new ValueIterator();
     }
 
-    private class CustomIterator implements java.util.Iterator<Object> {
+    private class ValueIterator implements java.util.Iterator<Object> {
         int currentIndex = 0;
         CustomNode current = CustomLL.this.start;
         @Override
@@ -87,6 +89,23 @@ public class CustomLL implements Iterable<Object>{
             CustomNode toReturn = current;
             current = current.getNext();
             return toReturn.getValue();
+        }
+    }
+    private class NodeIterator implements java.util.Iterator<CustomNode> {
+        int currentIndex = 0;
+        CustomNode current = CustomLL.this.start;
+        @Override
+        public boolean hasNext() {
+            return current != null;
+        }
+
+        @Override
+        public CustomNode next() {
+            if(!hasNext()) throw new java.util.NoSuchElementException();
+            currentIndex++;
+            CustomNode toReturn = current;
+            current = current.getNext();
+            return toReturn;
         }
     }
 
@@ -132,10 +151,13 @@ public class CustomLL implements Iterable<Object>{
     }
 
     public void remove(int index) {
-        CustomNode toRemove = walkToNodeAtIndex(index);
-        CustomNode leftOfRemoved = walkToNodeAtIndex(index - 1);
+        removeNode(walkToNodeAtIndex(index));
+    }
+
+    private void removeNode(CustomNode toRemove) {
+        CustomNode leftOfRemoved = toRemove.getPrevious();
         boolean isRemovingLast = toRemove.getNext() == null;
-        if (index == 0) {
+        if (toRemove == start) {
             removeFirst();
         } else if (isRemovingLast) {
             removeLast();
@@ -145,6 +167,17 @@ public class CustomLL implements Iterable<Object>{
     }
 
     public void removeAll(Object valueToRemove) {
+        forEachNode(((CustomNode n) -> {
+            boolean isMatch = n.getValue().equals(valueToRemove);
+            if(isMatch) removeNode(n);
+        }));
+    }
+
+    private void forEachNode(Consumer<CustomNode> consumer) {
+        NodeIterator nodeIterator = new NodeIterator();
+        while(nodeIterator.hasNext()) {
+            consumer.accept(nodeIterator.next());
+        }
     }
 
     public void removeLast(Object valueToRemove) {
