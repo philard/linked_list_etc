@@ -67,7 +67,7 @@ public class CustomLLTest {
 
     public void testSet(int index, int value) {
         list.set(index, value);
-        assertThat(value, equalTo(list.get(index)));
+        assertThat("value at index", value, equalTo(list.get(index)));
     }
 
     @Test(expected = IndexOutOfBoundsException.class)
@@ -80,9 +80,9 @@ public class CustomLLTest {
     public void shouldRemoveFirstAndLast() {
         list.removeFirst();
         list.removeLast();
-        assertThat(list.get(FIRST_INDEX), equalTo(1));
-        assertThat(list.get(1), equalTo(2));
-        assertThat(list.size(), equalTo(6));
+        assertThat("size ", list.size(), equalTo(6));
+        assertThat("first index ", list.get(FIRST_INDEX), equalTo(1));
+        assertThat("last index ", list.get(list.size() - 1), equalTo(1));
     }
 
     @Test
@@ -90,6 +90,14 @@ public class CustomLLTest {
         list.remove(1);
         assertThat(list.get(FIRST_INDEX), equalTo(0));
         assertThat(list.get(1), equalTo(2));
+        assertThat(list.size(), equalTo(7));
+    }
+
+    @Test
+    public void shouldRemoveAtIndexLast() {
+        list.remove(6);
+        assertThat(list.get(5), equalTo(2));
+        assertThat(list.get(6), equalTo(0));
         assertThat(list.size(), equalTo(7));
     }
 

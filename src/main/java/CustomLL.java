@@ -4,11 +4,8 @@ import java.util.List;
 
 public class CustomLL implements Iterable<Object>{
 
-    CustomNode start;
-    CustomNode end;
-
-    public CustomLL(){
-    }
+    private CustomNode start;
+    private CustomNode end;
 
     public void add(Object value) {
         addLast(value);
@@ -29,7 +26,18 @@ public class CustomLL implements Iterable<Object>{
         else {
             CustomNode atIndex = walkToNodeAtIndex(index - 1);
             CustomNode insertedNode = new CustomNode(value, atIndex.getNext());
+            addToEndIfApplicable(atIndex, insertedNode);
             atIndex.setNext(insertedNode);
+        }
+    }
+
+    private void addToEndIfApplicable(CustomNode atIndex, CustomNode insertedNode) {
+        if(atIndex == end || atIndex.getNext() == null) {
+            if (atIndex == end && atIndex.getNext() == null) {
+                end = insertedNode;
+            } else {
+                throw new IllegalStateException("Linked List state corrupeted");
+            }
         }
     }
 
@@ -94,20 +102,46 @@ public class CustomLL implements Iterable<Object>{
         }
     }
 
-    public void set(int index, int value) {
-
-    }
-
     public void removeFirst() {
         if (start == null) return;
         start = start.getNext();
     }
 
     public void removeLast() {
+        if (end == null) return;
+        if (start == end) {
+            start = end = null;
+            return;
+        }
+        CustomNode secondLast = getPrevious(end);
+        secondLast.setNext(null);
+        end = secondLast;
+    }
+
+    private CustomNode getPrevious(CustomNode end) {
+        return walkToNodeAtIndex(size() - 2);
+    }
+
+    private boolean isEmpty() {
+        return start == null & end == null;
+    }
+
+    public void set(int index, int value) {
+        CustomNode toRemove = walkToNodeAtIndex(index);
+        toRemove.setValue(value);
     }
 
     public void remove(int index) {
-
+        CustomNode toRemove = walkToNodeAtIndex(index);
+        CustomNode leftOfRemoved = walkToNodeAtIndex(index - 1);
+        boolean isRemovingLast = toRemove.getNext() == null;
+        if (index == 0) {
+            removeFirst();
+        } else if (isRemovingLast) {
+            removeLast();
+        } else {
+            leftOfRemoved.setNext(leftOfRemoved.getNext().getNext());
+        }
     }
 
     public void removeAll(Object valueToRemove) {
