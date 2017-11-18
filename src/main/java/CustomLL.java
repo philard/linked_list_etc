@@ -119,7 +119,7 @@ public class CustomLL implements Iterable<Object>{
     }
 
     private CustomNode getPrevious(CustomNode end) {
-        return walkToNodeAtIndex(size() - 2);
+        return end.getPrevious();
     }
 
     private boolean isEmpty() {

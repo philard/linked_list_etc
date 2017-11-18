@@ -23,13 +23,14 @@ public class CustomNode {
 
     public void setNext(CustomNode next) {
         this.next = next;
+        if(next != null) next.setPrevious(this);
     }
 
     public CustomNode getPrevious() {
         return previous;
     }
 
-    public void setPrevious(CustomNode previous) {
+    private void setPrevious(CustomNode previous) {
         this.previous = previous;
     }
 
