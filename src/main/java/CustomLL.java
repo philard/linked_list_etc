@@ -1,5 +1,6 @@
 import java.util.*;
 import java.util.function.Consumer;
+import java.util.function.Predicate;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
@@ -167,10 +168,12 @@ public class CustomLL implements Iterable<Object>{
     }
 
     public void removeAll(Object valueToRemove) {
-        forEachNode(((CustomNode n) -> {
-            boolean isMatch = n.getValue().equals(valueToRemove);
-            if(isMatch) removeNode(n);
-        }));
+        Predicate<CustomNode> isMatch = (node) -> node.getValue().equals(valueToRemove);
+
+        Stream<CustomNode> customNodeStream = StreamSupport.stream(Spliterators.spliteratorUnknownSize(
+                new NodeIterator(), 0), false)
+                .filter(isMatch);
+        customNodeStream.forEach(this::removeNode);
     }
 
     private void forEachNode(Consumer<CustomNode> consumer) {
