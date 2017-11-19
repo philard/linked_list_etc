@@ -122,37 +122,27 @@ public class CustomLLTest {
     @Test
     public void shouldRemoveFirstOfGivenValue() {
         list.removeFirst(1);
-        assertThat(list.get(0), equalTo(0));
-        assertThat(list.get(1), equalTo(2));
-        assertThat(list.get(2), equalTo(3));
-        assertThat(list.size(), equalTo(7));
+        assertThat("index 0", list.get(0), equalTo(0));
+        assertThat("index 1", list.get(1), equalTo(2));
+        assertThat("index 2", list.get(2), equalTo(3));
+        assertThat("list size is", list.size(), equalTo(7));
+    }
+
+    @Test
+    public void shouldDoNothingWhenRemovingNonexistentValue() {
+        list.removeFirst(42);
+        assertThat("index 0", list.get(0), equalTo(0));
+        assertThat("index 1", list.get(1), equalTo(1));
+        assertThat("index 2", list.get(2), equalTo(2));
+        assertThat("list size is", list.size(), equalTo(8));
     }
 
     @Test
     public void shouldRemove() {
         list.remove(new Integer(1));
-        assertThat("list size is ", list.size(), equalTo(7));
-    }
-
-    public void mainTest() {
-        setup();
-        //testAdditions();
-//        testAddToThirdPosition();
-//        testAddFirst();
-//        testAddLast();
-//        testSet();
-//        testSetOutOfBounds();
-//        testRemove();
-//        shouldRemove();
-//        shouldRemoveFirstOfGivenValue();
-//        shouldRemoveLastOfGivenValue();
-//        shouldRemoveAllOfGivenValue();
-//        shouldGetForGivenIndex();
-//        list.clear();
-    }
-
-    public static void main(String[] args) {
-        new CustomLLTest().mainTest();
-    }
+        assertThat("index 0", list.get(0), equalTo(0));
+        assertThat("index 1", list.get(1), equalTo(2));
+        assertThat("index 2", list.get(2), equalTo(3));
+        assertThat("list size is", list.size(), equalTo(7));    }
 
 }

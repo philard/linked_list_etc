@@ -1,7 +1,7 @@
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 import java.util.function.Consumer;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 public class CustomLL implements Iterable<Object>{
 
@@ -185,7 +185,10 @@ public class CustomLL implements Iterable<Object>{
     }
 
     public void removeFirst(Object valueToRemove) {
+        Stream<CustomNode> customNodeStream = StreamSupport.stream(Spliterators.spliteratorUnknownSize(
+                new NodeIterator(), Spliterator.ORDERED), false)
+                .filter(node -> node.getValue().equals(valueToRemove));
 
+        customNodeStream.findFirst().ifPresent(this::removeNode);
     }
-
 }
