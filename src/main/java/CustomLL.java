@@ -204,6 +204,19 @@ public class CustomLL implements Iterable<Object>{
         }
     }
 
+    private class DescendingIterator implements Iterator<CustomNode> {
+        private final CustomLL.NodeIterator itr = new CustomLL.NodeIterator();
+        public boolean hasNext() {
+            return itr.hasPrevious();
+        }
+        public CustomNode next() {
+            return itr.previous();
+        }
+        public void remove() {
+            itr.remove();
+        }
+    }
+
     public void removeAll(Object valueToRemove) {
         Predicate<CustomNode> isMatch = (node) -> node.getValue().equals(valueToRemove);
 
@@ -214,21 +227,21 @@ public class CustomLL implements Iterable<Object>{
     }
 
     public void removeLast(Object valueToRemove) {
-        NodeIterator nodeIterator = new NodeIterator();
-        CustomNode toRemove;
-        while(nodeIterator.hasPrevious()) {
-            toRemove = nodeIterator.previous();
-            if(toRemove.getValue().equals(valueToRemove)) {
-                removeNode(toRemove);
-                return;
-            }
-        }
+        Predicate<CustomNode> isMatch = (node) -> node.getValue().equals(valueToRemove);
+
+        Stream<CustomNode> customNodeStream = StreamSupport.stream(Spliterators.spliteratorUnknownSize(
+                new DescendingIterator(), Spliterator.ORDERED), false)
+                .filter(isMatch);
+        customNodeStream.findFirst().ifPresent(this::removeNode);
+
     }
 
     public void removeFirst(Object valueToRemove) {
+        Predicate<CustomNode> isMatch = (node) -> node.getValue().equals(valueToRemove);
+
         Stream<CustomNode> customNodeStream = StreamSupport.stream(Spliterators.spliteratorUnknownSize(
                 new NodeIterator(), Spliterator.ORDERED), false)
-                .filter(node -> node.getValue().equals(valueToRemove));
+                .filter(isMatch);
 
         customNodeStream.findFirst().ifPresent(this::removeNode);
     }
