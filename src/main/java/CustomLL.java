@@ -1,7 +1,6 @@
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.*;
-import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
@@ -115,9 +114,9 @@ public class CustomLL implements Iterable<Object>{
 
         @Override
         public CustomNode previous() {
+            if (!hasPrevious()) throw new java.util.NoSuchElementException();
             if(lastReturned == null) cursor = end;
 
-            if (!hasPrevious()) throw new java.util.NoSuchElementException();
             cursor = cursor.getPrevious();
             return lastReturned = cursor;
         }
@@ -214,15 +213,16 @@ public class CustomLL implements Iterable<Object>{
         customNodeStream.forEach(this::removeNode);
     }
 
-    private void forEachNode(Consumer<CustomNode> consumer) {
-        NodeIterator nodeIterator = new NodeIterator();
-        while(nodeIterator.hasNext()) {
-            consumer.accept(nodeIterator.next());
-        }
-    }
-
     public void removeLast(Object valueToRemove) {
-
+        NodeIterator nodeIterator = new NodeIterator();
+        CustomNode toRemove;
+        while(nodeIterator.hasPrevious()) {
+            toRemove = nodeIterator.previous();
+            if(toRemove.getValue().equals(valueToRemove)) {
+                removeNode(toRemove);
+                return;
+            }
+        }
     }
 
     public void removeFirst(Object valueToRemove) {
