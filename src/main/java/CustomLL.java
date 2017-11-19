@@ -1,3 +1,5 @@
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+
 import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
@@ -26,21 +28,15 @@ public class CustomLL implements Iterable<Object>{
         if (index < 0) throw new IndexOutOfBoundsException();
         if (index == 0) addFirst(value);
         else {
-            CustomNode atIndex = walkToNodeAtIndex(index - 1);
-            CustomNode insertedNode = new CustomNode(value, atIndex.getNext());
-            addToEndIfApplicable(atIndex, insertedNode);
-            atIndex.setNext(insertedNode);
+            CustomNode cursor = walkToNodeAtIndex(index - 1);
+            CustomNode insertedNode = new CustomNode(value, cursor.getNext());
+            setEndIfAtEnd(cursor, insertedNode);
+            cursor.setNext(insertedNode);
         }
     }
 
-    private void addToEndIfApplicable(CustomNode atIndex, CustomNode insertedNode) {
-        if(atIndex == end || atIndex.getNext() == null) {
-            if (atIndex == end && atIndex.getNext() == null) {
-                end = insertedNode;
-            } else {
-                throw new IllegalStateException("Linked List state corrupeted");
-            }
-        }
+    private void setEndIfAtEnd(CustomNode cursor, CustomNode insertedNode) {
+        if(cursor == end) end = insertedNode;
     }
 
 
@@ -92,21 +88,63 @@ public class CustomLL implements Iterable<Object>{
             return toReturn.getValue();
         }
     }
-    private class NodeIterator implements java.util.Iterator<CustomNode> {
+    private class NodeIterator implements java.util.ListIterator<CustomNode> {
         int currentIndex = 0;
-        CustomNode current = CustomLL.this.start;
+        CustomNode lastReturned = null;//CustomLL.this.end;
+        CustomNode cursor = CustomLL.this.start;
+
         @Override
         public boolean hasNext() {
-            return current != null;
+            return (cursor != null && cursor.getNext() != null);
         }
 
         @Override
         public CustomNode next() {
-            if(!hasNext()) throw new java.util.NoSuchElementException();
-            currentIndex++;
-            CustomNode toReturn = current;
-            current = current.getNext();
-            return toReturn;
+            if(lastReturned == null) cursor = start;
+
+            if (!hasNext()) throw new java.util.NoSuchElementException();
+            cursor = cursor.getNext();
+            return lastReturned = cursor;
+        }
+
+        @Override
+        public boolean hasPrevious() {
+            if(lastReturned == null) return hasNext();
+            else return cursor != null && cursor.getPrevious() != null;
+        }
+
+        @Override
+        public CustomNode previous() {
+            if(lastReturned == null) cursor = end;
+
+            if (!hasPrevious()) throw new java.util.NoSuchElementException();
+            cursor = cursor.getPrevious();
+            return lastReturned = cursor;
+        }
+
+        @Override
+        public int nextIndex() {
+            throw new NotImplementedException();
+        }
+
+        @Override
+        public int previousIndex() {
+            throw new NotImplementedException();
+        }
+
+        @Override
+        public void remove() {
+            throw new NotImplementedException();
+        }
+
+        @Override
+        public void set(CustomNode customNode) {
+            throw new NotImplementedException();
+        }
+
+        @Override
+        public void add(CustomNode customNode) {
+            throw new NotImplementedException();
         }
     }
 

@@ -113,10 +113,10 @@ public class CustomLLTest {
     @Test
     public void shouldRemoveLastOfGivenValue() {
         list.removeLast(1);
-        assertThat(list.get(4), equalTo(3));
-        assertThat(list.get(5), equalTo(2));
-        assertThat(list.get(6), equalTo(0));
-        assertThat(list.size(), equalTo(7));
+        assertThat("index 4", list.get(4), equalTo(3));
+        assertThat("index 5", list.get(5), equalTo(2));
+        assertThat("index 6", list.get(6), equalTo(0));
+        assertThat("list size is", list.size(), equalTo(7));
     }
 
     @Test
@@ -138,7 +138,7 @@ public class CustomLLTest {
     }
 
     @Test
-    public void shouldRemove() {
+    public void removeShouldBehaveLikeRemoveFirst() {
         list.remove(new Integer(1));
         assertThat("index 0", list.get(0), equalTo(0));
         assertThat("index 1", list.get(1), equalTo(2));
